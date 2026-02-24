@@ -111,41 +111,44 @@ function mouseClicked() {
 }
 
 function display() {
-  let y = 155;
+  let y = height - 155;
   let x = 25;
-  let word = ["Background:", "Line Colour:", "Thickness:"]
+  let word = ["Background:", "Line Colour:", "Thickness:", "r - resets the canvas"];
   
   fill ("white");
   strokeWeight(1);
   stroke("gray");
-  rect(0, height - y, width, y);
+  rect(0, y, width, 155);
   
   //Display text
   x = 10;
-  for (let i = 0; i <= 2; i++) {
+  for (let i = 0; i <= 3; i++) {
     textSize(20);
     fill("black");
-    text(word[i], x, height - 125);
+    text(word[i], x, y - 30);
     x += 190;
   }
   
   //Stroke size display
-  fill(225)
-  square(400, height - y + 60, 50);
+  fill(225);
+  square(400, y + 60, 50);
   fill("black");
-  text(fatness, 413, height - y + 90);
+  text(fatness, 413, y + 90);
   
   //Stroke size arrows
   fill(225);
-  rect(450, height - y + 60, 50, 25);
-  rect(450, height - y + 85, 50, 25);
+  rect(450, y + 60, 50, 25);
+  rect(450, y + 85, 50, 25);
   
   strokeWeight(5);
-  line(455, height - y + 75, 475, height - y + 65);
-  line(475, height - y + 65, 495, height - y + 75);
+  while (x <= 495) {
+    line(x, height - y + 75, x + 20, height - y + 65);
+  }
+  // line(455, height - y + 75, 475, height - y + 65);
+  // line(475, height - y + 65, 495, height - y + 75);
   
-  line(455, height - y + 95, 475, height - y + 105);
-  line(475, height - y + 105, 495, height - y + 95);
+  // line(455, height - y + 95, 475, height - y + 105);
+  // line(475, height - y + 105, 495, height - y + 95);
 }
 
 function backgroundOptions() {

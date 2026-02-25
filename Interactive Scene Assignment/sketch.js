@@ -1,7 +1,6 @@
-// Project Title
-// Your Name
-// Date
-//
+// Interactive Scene
+// Mehreeb Shahzad
+// Tuesday, March 3, 2026
 // Extra for Experts:
 // - describe what you did to take this project "above and beyond"
 
@@ -141,15 +140,17 @@ function display() {
   rect(450, y + 85, 50, 25);
   
   strokeWeight(5);
-  for (y += 75; y <= y + 105; y += )
-  for (x = 455; x <= 495; x += 20) {
-    line(x, y + 75, x + 20, height - y + 65);
+  for (let x = 455; x <= 495; x += 20) {
+    // for (let y = y + 75; y <= y + 105; y += 20) {
+
+    // }
+    line(x, y, x + 20, y - 10);
   }
-  // line(455, height - y + 75, 475, height - y + 65);
-  // line(475, height - y + 65, 495, height - y + 75);
+  // line(455, y + 75, 475, y + 65);
+  // line(475, y + 65, 495, y + 75);
   
-  // line(455, height - y + 95, 475, height - y + 105);
-  // line(475, height - y + 105, 495, height - y + 95);
+  // line(455, y + 95, 475, y + 105);
+  // line(475, y + 105, 495, y + 95);
 }
 
 function backgroundOptions() {
@@ -163,7 +164,7 @@ function backgroundOptions() {
   }
   
   x = 25;
-  for (i = 4; i <= 7; i++) {
+  for (let i = 4; i <= 7; i++) {
     fill(colours[i]);
     circle(x, height - y + 40, 30);
     x += 35;

@@ -141,8 +141,9 @@ function display() {
   rect(450, y + 85, 50, 25);
   
   strokeWeight(5);
-  while (x <= 495) {
-    line(x, height - y + 75, x + 20, height - y + 65);
+  for (y += 75; y <= y + 105; y += )
+  for (x = 455; x <= 495; x += 20) {
+    line(x, y + 75, x + 20, height - y + 65);
   }
   // line(455, height - y + 75, 475, height - y + 65);
   // line(475, height - y + 65, 495, height - y + 75);

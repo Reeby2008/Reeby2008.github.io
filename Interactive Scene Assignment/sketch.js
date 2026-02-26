@@ -183,6 +183,9 @@ function inkColour() {
   
   x = 215;
   for (i = 4; i <= 7; i++) {
+    if (i === 6) {
+      
+    }
     fill(colours[i]);
     circle(x, height - y + 40, 30);
     x += 35;

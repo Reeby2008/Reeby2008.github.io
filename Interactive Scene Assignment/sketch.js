@@ -124,7 +124,7 @@ function display() {
   for (let i = 0; i <= 3; i++) {
     textSize(20);
     fill("black");
-    text(word[i], x, y - 30);
+    text(word[i], x, y + 30);
     x += 190;
   }
   
@@ -140,17 +140,17 @@ function display() {
   rect(450, y + 85, 50, 25);
   
   strokeWeight(5);
-  for (let x = 455; x <= 495; x += 20) {
-    // for (let y = y + 75; y <= y + 105; y += 20) {
+  // for (let x = 455; x <= 495; x += 20) {
+  //    for (let y = y + 75; y <= y + 105; y += 20) {
 
-    // }
-    line(x, y, x + 20, y - 10);
-  }
-  // line(455, y + 75, 475, y + 65);
-  // line(475, y + 65, 495, y + 75);
+  //    }
+  //   line(x, y, x + 20, y - 10);
+  // }
+  line(455, y + 75, 475, y + 65);
+  line(475, y + 65, 495, y + 75);
   
-  // line(455, y + 95, 475, y + 105);
-  // line(475, y + 105, 495, y + 95);
+  line(455, y + 95, 475, y + 105);
+  line(475, y + 105, 495, y + 95);
 }
 
 function backgroundOptions() {

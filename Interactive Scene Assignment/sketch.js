@@ -8,7 +8,6 @@
 let y = 95;
 let fatness = 10;
 let colour = "black";
-let colours = ["red", "orange", "yellow", "green", "blue", "purple", "black", "gray"];
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -140,12 +139,6 @@ function display() {
   rect(450, y + 85, 50, 25);
   
   strokeWeight(5);
-  // for (let x = 455; x <= 495; x += 20) {
-  //    for (let y = y + 75; y <= y + 105; y += 20) {
-
-  //    }
-  //   line(x, y, x + 20, y - 10);
-  // }
   line(455, y + 75, 475, y + 65);
   line(475, y + 65, 495, y + 75);
   
@@ -155,6 +148,7 @@ function display() {
 
 function backgroundOptions() {
   let x = 25;
+  let colours = ["red", "orange", "yellow", "green", "blue", "purple", "black", "gray"];
   
   strokeWeight(1);
   for (let i = 0; i <= 3; i++) {
@@ -173,6 +167,7 @@ function backgroundOptions() {
 
 function inkColour() {
   let x = 215;
+  let colours = ["red", "orange", "yellow", "green", "blue", "purple", "white", "gray"];
   
   strokeWeight(1);
   for (let i = 0; i <= 3; i++) {
@@ -183,9 +178,6 @@ function inkColour() {
   
   x = 215;
   for (i = 4; i <= 7; i++) {
-    if (i === 6) {
-      
-    }
     fill(colours[i]);
     circle(x, height - y + 40, 30);
     x += 35;

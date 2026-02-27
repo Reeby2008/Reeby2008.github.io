@@ -9,6 +9,7 @@ let strokeSize = 10;
 let eraserSize = 10;
 let colour = "black";
 let bgColour = "white";
+//let erasing = false;
 let pixelEraser;
 
 function preload() {
@@ -138,12 +139,10 @@ function mouseClicked() {
   //Eraser size
   if (mouseX >= 670 && mouseX <= 720 && mouseY >= height - 70 && mouseY <= height - 45) {
     eraserSize++;
-    strokeWeight(eraserSize);
   }
   
   if (mouseX >= 670 && mouseX <= 720 && mouseY >= height - 45 && mouseY <= height - 20 && strokeSize > 1) {
     eraserSize--;
-    strokeWeight(eraserSize);
   }
 }
 
@@ -166,16 +165,29 @@ function display() {
   }
   text("Eraser and Eraser Size:", x - 190, y + 60);
   
-  //Stroke size display
-  fill(225);
-  square(400, y + 60, 50);
-  fill("black");
-  text(strokeSize, 413, y + 90);
-  
   //Stroke size arrows
+  for (let x = 400; x <= 620; x += 220) {
+    fill(225);
+    square(x, y + 60, 50);
+    fill("black");
+    text(strokeSize, x + 13, y + 90);
+    y += 25;
+  }
+
+  // fill(225);
+  // square(620, y + 85, 50);
+  // fill("black");
+  // text(eraserSize, 633, y + 115);
+  
   fill(225);
-  rect(450, y + 60, 50, 25);
-  rect(450, y + 85, 50, 25);
+  for (let x = 450; x <= 670; x += 220) {
+    rect(x, y + 10, 50, 25);
+    y += 25;
+    rect(x, y + 10, 50, 25);
+  }
+  // fill(225);
+  // rect(450, y + 60, 50, 25);
+  // rect(450, y + 85, 50, 25);
   
   strokeWeight(5);
   line(455, y + 75, 475, y + 65);
@@ -185,24 +197,18 @@ function display() {
   line(475, y + 105, 495, y + 95);
 
   //Eraser size arrows
-  strokeWeight(1);
-  fill(225);
-  square(620, y + 85, 50);
-  fill("black");
-  text(eraserSize, 633, y + 115);
-
-  fill(225);
-  rect(670, y + 85, 50, 25);
-  rect(670, y + 110, 50, 25);
+  // fill(225);
+  // rect(670, y + 85, 50, 25);
+  // rect(670, y + 110, 50, 25);
   
   strokeWeight(5);
-  line(675, y + 100, 695, y + 90);
-  line(695, y + 90, 715, y + 100);
+  line(675, y, 695, y - 10);
+  line(695, y - 10, 715, y);
   
-  line(675, y + 120, 695, y + 130);
-  line(695, y + 130, 715, y + 120);
+  line(675, y + 20, 695, y + 30);
+  line(695, y + 30, 715, y + 20);
 
-  image(pixelEraser, x - 190, y + 90, pixelEraser.width * 0.4, pixelEraser.height * 0.4);
+  image(pixelEraser, x - 190, y - 15, pixelEraser.width * 0.4, pixelEraser.height * 0.4);
 }
 
 function backgroundDisplay() {

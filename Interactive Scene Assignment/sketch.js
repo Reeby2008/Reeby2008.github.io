@@ -5,9 +5,16 @@
 // - describe what you did to take this project "above and beyond"
 
 
-let y = 95;
-let fatness = 10;
+let strokeSize = 10;
+let eraserSize = 10;
 let colour = "black";
+let bgColour = "white";
+let pixelEraser;
+
+function preload() {
+  //Image from https://www.shutterstock.com/image-vector/eraser-pixel-art-icon-design-sticker-2097008146?trackingId=8fdaa0bf-5960-44f6-904d-7f0853f6fe95&listId=searchResults
+  pixelEraser = loadImage("pixel-eraser-icon.png");
+}
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -16,14 +23,14 @@ function setup() {
 
 function draw() {
   display();
-  backgroundOptions();
-  inkColour();
+  backgroundDisplay();
+  inkColourDisplay();
   drawing();
 }
 
 function drawing() {
   if (mouseIsPressed) {
-    strokeWeight(fatness);
+    strokeWeight(strokeSize);
     stroke(colour);
     line(pmouseX, pmouseY, mouseX, mouseY);
   }
@@ -32,40 +39,58 @@ function drawing() {
 function keyPressed() {
   if (key === "r") {
     clear();
-    background("white");
+    bgColour = "white";
+    background(bgColour);
     colour = "black";
-    fatness = 10;
+    strokeSize = 10;
+    eraserSize = 10;
+  }
+
+  //Stroke Size
+  if (keyCode === UP_ARROW) {
+    eraserSize++;
+  }
+
+  if (keyCode === DOWN_ARROW && strokeSize > 1) {
+    eraserSize--;
   }
 }
 
 function mouseClicked() {
-  
   //Background colour
   if (mouseX >= 10 && mouseX <= 40 && mouseY >= height - 110 && mouseY <= height - 80) {
-    background("red");
+    bgColour = "red";
+    background(bgColour);
   }
   if (mouseX >= 45 && mouseX <= 75 && mouseY >= height - 110 && mouseY <= height - 80) {
-    background("orange");
+    bgColour = "orange";
+    background(bgColour);
   }
   if (mouseX >= 80 && mouseX <= 110 && mouseY >= height - 110 && mouseY <= height - 80) {
-    background("yellow");
+    bgColour = "yellow";
+    background(bgColour);
   }
   if (mouseX >= 115 && mouseX <= 145 && mouseY >= height - 110 && mouseY <= height - 80) {
-    background("green");
+    bgColour = "green";
+    background(bgColour);
   }
   
   
   if (mouseX >= 10 && mouseX <= 40 && mouseY >= height - 70 && mouseY <= height - 40) {
-    background("blue");
+    bgColour = "blue";
+    background(bgColour);
   }
   if (mouseX >= 45 && mouseX <= 75 && mouseY >= height - 70 && mouseY <= height - 40) {
-    background("purple");
+    bgColour = "purple";
+    background(bgColour);
   }
   if (mouseX >= 80 && mouseX <= 110 && mouseY >= height - 70 && mouseY <= height - 40) {
-    background("black");
+    bgColour = "black";
+    background(bgColour);
   }
   if (mouseX >= 115 && mouseX <= 145 && mouseY >= height - 70 && mouseY <= height - 40) {
-    background("gray");
+    bgColour = "gray";
+    background(bgColour);
   }
   
   //Stroke colour
@@ -96,21 +121,35 @@ function mouseClicked() {
     colour = "gray";
   }
   
-  
+  //Stroke Size
   if (mouseX >= 450 && mouseX <= 500 && mouseY >= height - 95 && mouseY <= height - 70) {
-    fatness++;
+    strokeSize++;
   }
   
-  if (mouseX >= 450 && mouseX <= 500 && mouseY >= height - 70 && mouseY <= height - 45) {
-    if (fatness > 1) {
-      fatness--;
-    }
+  if (mouseX >= 450 && mouseX <= 500 && mouseY >= height - 70 && mouseY <= height - 45 && strokeSize > 1) {
+    strokeSize--;
+  }
+
+  //Eraser
+  if (mouseX >= 580 && mouseX <= 580 + pixelEraser.width * 0.4 && mouseY >= 870 && mouseY <= 870 + pixelEraser.height * 0.4) {
+    colour = bgColour;
+  }
+
+  //Eraser size
+  if (mouseX >= 670 && mouseX <= 720 && mouseY >= height - 70 && mouseY <= height - 45) {
+    eraserSize++;
+    strokeWeight(eraserSize);
+  }
+  
+  if (mouseX >= 670 && mouseX <= 720 && mouseY >= height - 45 && mouseY <= height - 20 && strokeSize > 1) {
+    eraserSize--;
+    strokeWeight(eraserSize);
   }
 }
 
 function display() {
   let y = height - 155;
-  let x = 25;
+  let x = 10;
   let word = ["Background:", "Line Colour:", "Thickness:", "r - resets the canvas"];
   
   fill ("white");
@@ -119,19 +158,19 @@ function display() {
   rect(0, y, width, 155);
   
   //Display text
-  x = 10;
   for (let i = 0; i <= 3; i++) {
     textSize(20);
     fill("black");
     text(word[i], x, y + 30);
     x += 190;
   }
+  text("Eraser and Eraser Size:", x - 190, y + 60);
   
   //Stroke size display
   fill(225);
   square(400, y + 60, 50);
   fill("black");
-  text(fatness, 413, y + 90);
+  text(strokeSize, 413, y + 90);
   
   //Stroke size arrows
   fill(225);
@@ -144,42 +183,62 @@ function display() {
   
   line(455, y + 95, 475, y + 105);
   line(475, y + 105, 495, y + 95);
+
+  //Eraser size arrows
+  strokeWeight(1);
+  fill(225);
+  square(620, y + 85, 50);
+  fill("black");
+  text(eraserSize, 633, y + 115);
+
+  fill(225);
+  rect(670, y + 85, 50, 25);
+  rect(670, y + 110, 50, 25);
+  
+  strokeWeight(5);
+  line(675, y + 100, 695, y + 90);
+  line(695, y + 90, 715, y + 100);
+  
+  line(675, y + 120, 695, y + 130);
+  line(695, y + 130, 715, y + 120);
+
+  image(pixelEraser, x - 190, y + 90, pixelEraser.width * 0.4, pixelEraser.height * 0.4);
 }
 
-function backgroundOptions() {
+function backgroundDisplay() {
   let x = 25;
   let colours = ["red", "orange", "yellow", "green", "blue", "purple", "black", "gray"];
   
   strokeWeight(1);
   for (let i = 0; i <= 3; i++) {
     fill(colours[i]);
-    circle(x, height - y, 30);
+    circle(x, height - 95, 30);
     x += 35;
   }
   
   x = 25;
   for (let i = 4; i <= 7; i++) {
     fill(colours[i]);
-    circle(x, height - y + 40, 30);
+    circle(x, height - 55, 30);
     x += 35;
   }
 }
 
-function inkColour() {
+function inkColourDisplay() {
   let x = 215;
   let colours = ["red", "orange", "yellow", "green", "blue", "purple", "white", "gray"];
   
   strokeWeight(1);
   for (let i = 0; i <= 3; i++) {
     fill(colours[i]);
-    circle(x, height - y, 30);
+    circle(x, height - 95, 30);
     x += 35;
   }
-  
+
   x = 215;
-  for (i = 4; i <= 7; i++) {
+  for (let i = 4; i <= 7; i++) {
     fill(colours[i]);
-    circle(x, height - y + 40, 30);
+    circle(x, height - 55, 30);
     x += 35;
   }
 }

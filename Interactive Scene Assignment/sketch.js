@@ -8,7 +8,7 @@
 let strokeSize = 10;
 let colour = "black";
 let bgColour = "white";
-let colours1 = ["red", "orange", "yellow", "green", "blue", "purple", "black", "gray"];
+let colours1 = ["Red", "Orange", "Yellow", "Green", "Blue", "Purple", "Black", "Gray"];
 let colours2 = structuredClone(colours1);
 let pixelEraser;
 
@@ -22,7 +22,7 @@ function setup() {
   background("white");
 
   //Replace the black colour with white
-  colours2[6] = "white";
+  colours2[6] = "White";
 }
 
 function draw() {
@@ -30,6 +30,7 @@ function draw() {
   display();
   backgroundDisplay();
   inkColourDisplay();
+  hovering();
 }
 
 function drawing() {
@@ -43,7 +44,7 @@ function drawing() {
 
 function display() {
   let x = 10;
-  let word = ["Background:", "Line Colour:", "Stroke Size:", "r - resets the canvas"];
+  let word = ["Background:", "Stroke Colour:", "Stroke Size:", "r - resets the canvas"];
   
   //Menu display
   fill ("white");
@@ -118,6 +119,59 @@ function inkColourDisplay() {
       circle(x - 140, height - 55, 30);
     }
     x += 35;
+  }
+}
+
+function hovering() {
+  let x = 10;
+
+  //Background text
+  for (let i = 0; i <= 7; i++) {
+    //Top
+    if (mouseX >= x && mouseX <= x + 30 && mouseY >= height - 110 && mouseY <= height - 80 && i <= 3) {
+      stroke("white");
+      textSize(15);
+      fill("black");
+      text(colours1[i], mouseX, mouseY);
+    }
+
+    //Bottom
+    if (mouseX >= x - 140 && mouseX <= x - 110 && mouseY >= height - 70 && mouseY <= height - 40 && i > 3) {
+      stroke("white");
+      textSize(15);
+      fill("black");
+      text(colours1[i], mouseX, mouseY);
+    }
+    x += 35;
+  }
+  
+  //Pen text
+  x = 200;
+  for (let i = 0; i <= 7; i++) {
+    //Top
+    if (mouseX >= x && mouseX <= x + 30 && mouseY >= height - 110 && mouseY <= height - 80 && i <= 3) {
+      stroke("white");
+      textSize(15);
+      fill("black");
+      text(colours2[i], mouseX, mouseY);
+    }
+    
+    //Bottom
+    if (mouseX >= x - 140 && mouseX <= x - 110 && mouseY >= height - 70 && mouseY <= height - 40 && i > 3) {
+      stroke("white");
+      textSize(15);
+      fill("black");
+      text(colours2[i], mouseX, mouseY);
+    }
+    x += 35;
+  }
+
+  //Eraser text
+  if (mouseX >= 580 && mouseX <= 580 + pixelEraser.width * 0.4 && mouseY >= 840 && mouseY <= 840 + pixelEraser.height * 0.4) {
+      stroke("white");
+      textSize(15);
+      fill("black");
+      text("Eraser", mouseX, mouseY);
   }
 }
 

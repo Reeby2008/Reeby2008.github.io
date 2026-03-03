@@ -168,10 +168,10 @@ function hovering() {
 
   //Eraser text
   if (mouseX >= 580 && mouseX <= 580 + pixelEraser.width * 0.4 && mouseY >= 840 && mouseY <= 840 + pixelEraser.height * 0.4) {
-      stroke("white");
-      textSize(15);
-      fill("black");
-      text("Eraser", mouseX, mouseY);
+    stroke("white");
+    textSize(15);
+    fill("black");
+    text("Eraser", mouseX, mouseY);
   }
 }
 

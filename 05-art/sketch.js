@@ -40,7 +40,7 @@ function spawnTile(x, y, tileSize) {
       x1: x - tileSize/2,
       y1: y - tileSize/2,
       x2: x + tileSize/2,
-      y2: y + tilesize/2,
+      y2: y + tileSize/2,
     };
   }
   return tile;

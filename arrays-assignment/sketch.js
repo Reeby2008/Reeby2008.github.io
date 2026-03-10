@@ -29,10 +29,12 @@ function homeScreen() {
   stroke(100, 150, 100);
   strokeWeight(10);
   rect(rectSize.x - rectSize.w/2, rectSize.y - rectSize.h/2, rectSize.w, rectSize.h, rectSize.r, rectSize.r, rectSize.r, rectSize.r);
+
   textSize(50);
+  textAlign(CENTER);
   text("SOLITAIRE", rectSize.x, rectSize.y);
-  // textSize(30);
-  // text("Play", rectSize.x + 100, rectSize.y + 50);
+  textSize(30);
+  text("Play", rectSize.x, rectSize.y + 50);
 }
 
 function playScreen() {

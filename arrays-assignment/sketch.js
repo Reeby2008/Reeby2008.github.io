@@ -33,13 +33,17 @@ function homeScreen() {
   textSize(50);
   textAlign(CENTER);
   text("SOLITAIRE", rectSize.x, rectSize.y);
+
   textSize(30);
   text("Play", rectSize.x, rectSize.y + 50);
+
+  // if (mouseX >= rectSize.x - 50 && mouseX <= rectSize.x + 50 && mouseY >= rectSize.y + 30 && mouseY <= rectSize.y - 30 && mousePressed) {
+  //   clear();
+  //   playScreen();
+  // }
 }
 
 function playScreen() {
-  let cardSize = 50;
-
   background("green");
   rect(rectSize.x, rectSize.y, rectSize.w, rectSize.h);
 }

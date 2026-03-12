@@ -9,10 +9,12 @@ let cards = [];
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
+
+  homeScreen();
 }
 
 function draw() {
-  homeScreen();
+  
 }
 
 function homeScreen() {
@@ -28,22 +30,34 @@ function homeScreen() {
   fill(250, 250, 150);
   stroke(100, 150, 100);
   strokeWeight(10);
-  rect(rectSize.x - rectSize.w/2, rectSize.y - rectSize.h/2, rectSize.w, rectSize.h, rectSize.r, rectSize.r, rectSize.r, rectSize.r);
+  rectMode(CENTER);
+  rect(rectSize.x, rectSize.y, rectSize.w, rectSize.h, rectSize.r, rectSize.r, rectSize.r, rectSize.r);
 
-  textSize(50);
+  textSize(100);
   textAlign(CENTER);
+  fill(100, 150, 100);
+  stroke(50, 100, 50);
   text("SOLITAIRE", rectSize.x, rectSize.y);
 
-  textSize(30);
-  text("Play", rectSize.x, rectSize.y + 50);
-
-  // if (mouseX >= rectSize.x - 50 && mouseX <= rectSize.x + 50 && mouseY >= rectSize.y + 30 && mouseY <= rectSize.y - 30 && mousePressed) {
-  //   clear();
-  //   playScreen();
-  // }
+  textSize(60);
+  text("Play", rectSize.x, rectSize.y + 60);
 }
 
 function playScreen() {
   background("green");
-  rect(rectSize.x, rectSize.y, rectSize.w, rectSize.h);
+}
+
+function mouseClicked() {
+  let rectSize = {
+    x: width/2,
+    y: height/2,
+    w: 700,
+    h: 700,
+    r: 10,
+  };
+
+  if (mouseX <= rectSize.x + 60 && mouseX >= rectSize.x - 60 && mouseY <= rectSize.y + 75 && mouseY >= rectSize.y + 10) {
+    clear();
+    playScreen();
+  }
 }

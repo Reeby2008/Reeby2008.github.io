@@ -14,11 +14,11 @@ function setup() {
 }
 
 function draw() {
-  
+
 }
 
 function homeScreen() {
-  let rectSize = {
+  let size = {
     x: width/2,
     y: height/2,
     w: 700,
@@ -31,32 +31,42 @@ function homeScreen() {
   stroke(100, 150, 100);
   strokeWeight(10);
   rectMode(CENTER);
-  rect(rectSize.x, rectSize.y, rectSize.w, rectSize.h, rectSize.r, rectSize.r, rectSize.r, rectSize.r);
+  rect(size.x, size.y, size.w, size.h, size.r, size.r, size.r, size.r);
 
   textSize(100);
   textAlign(CENTER);
   fill(100, 150, 100);
   stroke(50, 100, 50);
-  text("SOLITAIRE", rectSize.x, rectSize.y);
+  text("Solitaire", size.x, size.y);
 
   textSize(60);
-  text("Play", rectSize.x, rectSize.y + 60);
+  text("Play", size.x, size.y + 60);
 }
 
 function playScreen() {
-  background("green");
+  let cardPlaces = {
+    x: 3*(width/4),
+    y: height/2 - 3*(height/4),
+    w: 100,
+    h: 300,
+    r: 10,
+  };
+
+  background(0, 50, 0);
+  fill("white");
+  rect(cardPlaces.x, cardPlaces.y, cardPlaces.w, cardPlaces.h);
 }
 
 function mouseClicked() {
-  let rectSize = {
+  let size = {
     x: width/2,
     y: height/2,
     w: 700,
     h: 700,
     r: 10,
   };
-
-  if (mouseX <= rectSize.x + 60 && mouseX >= rectSize.x - 60 && mouseY <= rectSize.y + 75 && mouseY >= rectSize.y + 10) {
+  
+  if (mouseX <= size.x + textWidth("Play") && mouseX >= size.x - textWidth("Play") && mouseY <= size.y + 75 && mouseY >= size.y + 10) {
     clear();
     playScreen();
   }

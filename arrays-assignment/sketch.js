@@ -14,7 +14,7 @@ function setup() {
 }
 
 function draw() {
-
+  
 }
 
 function homeScreen() {
@@ -45,16 +45,16 @@ function homeScreen() {
 
 function playScreen() {
   let cardPlaces = {
-    x: 3*(width/4),
-    y: height/2 - 3*(height/4),
-    w: 100,
-    h: 300,
-    r: 10,
+    x: width/2,
+    y: height/4,
   };
 
   background(0, 50, 0);
   fill("white");
-  rect(cardPlaces.x, cardPlaces.y, cardPlaces.w, cardPlaces.h);
+  rect(cardPlaces.x + 75, cardPlaces.y, 150, 200);
+  rect(cardPlaces.x + 200, cardPlaces.y, 150, 200);
+  rect(cardPlaces.x + 75, cardPlaces.y, 150, 200);
+  rect(cardPlaces.x + 75, cardPlaces.y, 150, 200);
 }
 
 function mouseClicked() {
@@ -67,7 +67,6 @@ function mouseClicked() {
   };
   
   if (mouseX <= size.x + textWidth("Play") && mouseX >= size.x - textWidth("Play") && mouseY <= size.y + 75 && mouseY >= size.y + 10) {
-    clear();
     playScreen();
   }
 }

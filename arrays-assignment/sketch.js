@@ -3,7 +3,7 @@
 // Wednesday, March 18, 2026
 
 // Extra for Experts: Accessing specific parts of an image
-// - Using image() to access specific parts of one image (like one specific card)
+// - Using .get() to access specific parts of one image (like one specific card)
 
 let deckOfCards;
 let card = [];
@@ -50,30 +50,46 @@ function homeScreen() {
 }
 
 function playScreen() {
-  let cardPlaces = {
-    x: width/2,
-    y: height/4,
+  let nextRow = 300;
+  let cardSize = {
+    w: 69.5,
+    h: 100,
   };
 
-  let destx = 100;
-  let desty = 100;
-  let x = 15;
-  let y = 10;
-
   background(0, 50, 0);
-  fill("white");
-  rect(cardPlaces.x + 75, cardPlaces.y, 150, 200);
-  rect(cardPlaces.x + 200, cardPlaces.y, 150, 200);
-  rect(cardPlaces.x + 75, cardPlaces.y, 150, 200);
-  rect(cardPlaces.x + 75, cardPlaces.y, 150, 200);
+  fill(50, 100, 50);
+  rect(width/2 - 25, 290, cardSize.w * 1.75, cardSize.h * 1.75, 5, 5, 5, 5);
+  rect(width/2 + 125, 290, cardSize.w * 1.75, cardSize.h * 1.75, 5, 5, 5, 5);
+  rect(width/2 + 275, 290, cardSize.w * 1.75, cardSize.h * 1.75, 5, 5, 5, 5);
+  rect(width/2 + 425, 290, cardSize.w * 1.75, cardSize.h * 1.75, 5, 5, 5, 5);
 
-  //image(img, destination x, destination y, destination width, destination height, crop x, crop y, crop width, crop height)
-  for (let cards = 0; cards <= 14; cards++) {
-    card.push(deckOfCards.get(destx, desty, x, y));
-    destx += 100;
-    x += 69.5;
+  //Pushing all of the cards into the array
+  for (let x = 15; x <= 918.5; x += 69.5) {
+    card.push(deckOfCards.get(x, 10, 69.5, 100));
   }
-  console.log(card);
+
+  for (let x = 84.5; x <= 918.5; x += 69.5) {
+    card.push(deckOfCards.get(x, 110, 69.5, 100));
+  }
+
+  for (let x = 84.5; x <= 918.5; x += 69.5) {
+    card.push(deckOfCards.get(x, 210, 69.5, 100));
+  }
+
+  for (let x = 84.5; x <= 918.5; x += 69.5) {
+    card.push(deckOfCards.get(x, 310, 69.5, 100));
+  }
+
+  //Setting up the 7 columns
+  for (let y = 400; y <= 540; y += 20) {
+    for (let x = 1212; x >= nextRow; x -= 152) {
+      let i = 0;
+      image(card[i], x, y, card[i].width * 2, card[i].height * 2);
+    }
+    nextRow += 152;
+  }
+
+  image(card[0], 300, 190, card[0].width * 2, card[0].height * 2);
 }
 
 function mouseClicked() {

@@ -7,6 +7,8 @@
 
 let deckOfCards;
 let card = [];
+let extras = [];
+let i = 0;
 
 function preload() {
   //Image source: https://stock.adobe.com/ca/images/playing-cards-full-deck-set-with-isolated-cards/559593180
@@ -90,6 +92,8 @@ function playScreen() {
   }
 
   image(card[0], 300, 190, card[0].width * 2, card[0].height * 2);
+
+  extraCards();
 }
 
 function mouseClicked() {
@@ -103,5 +107,21 @@ function mouseClicked() {
   
   if (mouseX <= size.x + textWidth("Play")/2 && mouseX >= size.x - textWidth("Play")/2 && mouseY <= size.y + 75 && mouseY >= size.y + 10) {
     playScreen();
+  }
+
+  if (mouseX <= card[0].width * 2 + 300 && mouseX >= 300 && mouseY <= card[0].height * 2 + 190 && mouseY >= 190) {
+    image(extras[i], 310 + extras[i].width * 2, 190, extras[i].width * 2, extras[i].height * 2);
+    i++;
+  }
+}
+
+
+function extraCards() {
+  //Picks a random card to put inside of a different array storing the cards in the top left.
+  for (let cardInExtras = 0; cardInExtras < 24; cardInExtras++) {
+    let i = random(1, 52);
+    i = int(i);
+
+    extras.push(card[i]);
   }
 }

@@ -8,7 +8,7 @@
 let deckOfCards;
 let card = [];
 let extras = [];
-let i = 0;
+let extrasIndex = 0;
 
 function preload() {
   //Image source: https://stock.adobe.com/ca/images/playing-cards-full-deck-set-with-isolated-cards/559593180
@@ -52,7 +52,8 @@ function homeScreen() {
 }
 
 function playScreen() {
-  let nextRow = 300;
+  let secondNum = 52;
+  let nextRow = width/2 - 549.5;
   let cardSize = {
     w: 69.5,
     h: 100,
@@ -66,34 +67,43 @@ function playScreen() {
   rect(width/2 + 425, 290, cardSize.w * 1.75, cardSize.h * 1.75, 5, 5, 5, 5);
 
   //Pushing all of the cards into the array
-  for (let x = 15; x <= 918.5; x += 69.5) {
-    card.push(deckOfCards.get(x, 10, 69.5, 100));
+  for (let x = 15; x <= 918.5; x += cardSize.w) {
+    card.push(deckOfCards.get(x, 10, cardSize.w, cardSize.h));
   }
 
-  for (let x = 84.5; x <= 918.5; x += 69.5) {
-    card.push(deckOfCards.get(x, 110, 69.5, 100));
+  for (let x = 84.5; x <= 918.5; x += cardSize.w) {
+    card.push(deckOfCards.get(x, 110, cardSize.w, cardSize.h));
   }
 
-  for (let x = 84.5; x <= 918.5; x += 69.5) {
-    card.push(deckOfCards.get(x, 210, 69.5, 100));
+  for (let x = 84.5; x <= 918.5; x += cardSize.w) {
+    card.push(deckOfCards.get(x, 210, cardSize.w, cardSize.h));
   }
 
-  for (let x = 84.5; x <= 918.5; x += 69.5) {
-    card.push(deckOfCards.get(x, 310, 69.5, 100));
+  for (let x = 84.5; x <= 918.5; x += cardSize.w) {
+    card.push(deckOfCards.get(x, 310, cardSize.w, cardSize.h));
   }
+
+  //Top left extra cards display
+  image(card[0], nextRow, 190, card[0].width * 2, card[0].height * 2);
 
   //Setting up the 7 columns
   for (let y = 400; y <= 540; y += 20) {
-    for (let x = 1212; x >= nextRow; x -= 152) {
+    for (let x = width/2 + 362.5; x >= nextRow; x -= 152) {
       let i = 0;
       image(card[i], x, y, card[i].width * 2, card[i].height * 2);
     }
     nextRow += 152;
   }
 
-  image(card[0], 300, 190, card[0].width * 2, card[0].height * 2);
+  //Picks a random card to put inside of a different array. This is for the cards on the top left
+  for (let cardInExtras = 0; cardInExtras < 24; cardInExtras++) {
+    let i = random(1, secondNum);
+    i = int(i);
 
-  extraCards();
+    extras.push(card[i]);
+    card.splice(i, 1);
+    secondNum--;
+  }
 }
 
 function mouseClicked() {
@@ -105,23 +115,33 @@ function mouseClicked() {
     r: 10,
   };
   
+  //Switches to the game when "Play" is pressed
   if (mouseX <= size.x + textWidth("Play")/2 && mouseX >= size.x - textWidth("Play")/2 && mouseY <= size.y + 75 && mouseY >= size.y + 10) {
     playScreen();
   }
 
-  if (mouseX <= card[0].width * 2 + 300 && mouseX >= 300 && mouseY <= card[0].height * 2 + 190 && mouseY >= 190) {
-    image(extras[i], 310 + extras[i].width * 2, 190, extras[i].width * 2, extras[i].height * 2);
-    i++;
+  //Flips the card from the extras deck
+  if (mouseX <= card[0].width * 2 + width/2 - 549.5 && mouseX >= width/2 - 549.5 && mouseY <= card[0].height * 2 + 190 && mouseY >= 190 && extrasIndex !== 23) {
+    image(extras[extrasIndex], width/2 - 539.5 + extras[extrasIndex].width * 2, 190, extras[extrasIndex].width * 2, extras[extrasIndex].height * 2);
+    image(card[0], width/2 - 549.5, 190, card[0].width * 2, card[0].height * 2);
+    extrasIndex++;
+  }
+
+  //Resets the extras deck back to normal
+  //Note: after resetting it flips the top card of the deck automatically
+  if (mouseX <= card[0].width * 2 + width/2 - 549.5 && mouseX >= width/2 - 549.5 && mouseY <= card[0].height * 2 + 190 && mouseY >= 190 && extrasIndex === 23) {
+    noStroke();
+    rectMode(CORNER);
+    fill(0, 50, 0);
+    rect(width/2 - 549.5, 190, card[0].width * 2, card[0].height * 2);
+    image(extras[extrasIndex], width/2 - 539.5 + extras[extrasIndex].width * 2, 190, extras[extrasIndex].width * 2, extras[extrasIndex].height * 2);
+    extrasIndex = 0;
   }
 }
 
-
-function extraCards() {
-  //Picks a random card to put inside of a different array storing the cards in the top left.
-  for (let cardInExtras = 0; cardInExtras < 24; cardInExtras++) {
-    let i = random(1, 52);
-    i = int(i);
-
-    extras.push(card[i]);
-  }
+function flipDetector() {
+  //Useful link maybe?: https://youtu.be/XATr_jdh-44?si=jjYWf3unSNKQGQoH
+  // for (let i = 0; i <= 53; i++) {
+  //   if ()
+  // }
 }

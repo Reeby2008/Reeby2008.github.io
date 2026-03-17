@@ -8,7 +8,10 @@
 let deckOfCards;
 let card = [];
 let extras = [];
+let yValues = [];
+let xValues = [];
 let extrasIndex = 0;
+let cardsIndex = 0;
 
 function preload() {
   //Image source: https://stock.adobe.com/ca/images/playing-cards-full-deck-set-with-isolated-cards/559593180
@@ -91,6 +94,8 @@ function playScreen() {
     for (let x = width/2 + 362.5; x >= nextRow; x -= 152) {
       let i = 0;
       image(card[i], x, y, card[i].width * 2, card[i].height * 2);
+      yValues.push(y);
+      xValues.push(x);
     }
     nextRow += 152;
   }
@@ -104,6 +109,8 @@ function playScreen() {
     card.splice(i, 1);
     secondNum--;
   }
+
+  flipDetector();
 }
 
 function mouseClicked() {
@@ -141,7 +148,16 @@ function mouseClicked() {
 
 function flipDetector() {
   //Useful link maybe?: https://youtu.be/XATr_jdh-44?si=jjYWf3unSNKQGQoH
-  // for (let i = 0; i <= 53; i++) {
-  //   if ()
-  // }
+  let num = 29;
+  let nextCard = 7;
+
+  for (let i = 0; i <= 29; i += nextCard) {
+    if (yValues[i + nextCard] - yValues[i] > 20) {
+      let cardsIndex = random(1, num);
+      cardsIndex = int(cardsIndex);
+
+      image(card[cardsIndex], xValues[i], yValues[i + nextCard], card[cardsIndex].width * 2, card[cardsIndex].height * 2);
+    }
+    nextCard--;
+  }
 }

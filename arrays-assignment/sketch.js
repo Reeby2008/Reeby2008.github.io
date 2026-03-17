@@ -12,6 +12,7 @@ let yValues = [];
 let xValues = [];
 let extrasIndex = 0;
 let cardsIndex = 0;
+let flipped = false;
 
 function preload() {
   //Image source: https://stock.adobe.com/ca/images/playing-cards-full-deck-set-with-isolated-cards/559593180
@@ -90,13 +91,14 @@ function playScreen() {
   image(card[0], nextRow, 190, card[0].width * 2, card[0].height * 2);
 
   //Setting up the 7 columns
-  for (let y = 400; y <= 540; y += 20) {
+  for (let y = 400; y <= 520; y += 20) {
     for (let x = width/2 + 362.5; x >= nextRow; x -= 152) {
       let i = 0;
+
       image(card[i], x, y, card[i].width * 2, card[i].height * 2);
-      yValues.push(y);
       xValues.push(x);
     }
+    yValues.push(y);
     nextRow += 152;
   }
 
@@ -151,13 +153,16 @@ function flipDetector() {
   let num = 29;
   let nextCard = 7;
 
-  for (let i = 0; i <= 29; i += nextCard) {
-    if (yValues[i + nextCard] - yValues[i] > 20) {
-      let cardsIndex = random(1, num);
-      cardsIndex = int(cardsIndex);
-
-      image(card[cardsIndex], xValues[i], yValues[i + nextCard], card[cardsIndex].width * 2, card[cardsIndex].height * 2);
+  for (let i = 0; i < 7; i++) {
+    if (yValues[i] + 20 === yValues[i + 1]) {
+      flipped = false;
     }
-    nextCard--;
+    else {
+      let flippedCard = random(1, num);
+      flippedCard = int(flippedCard);
+
+      image(card[flippedCard], xValues[0], yValues[i], card[flippedCard].width * 2, card[flippedCard].height * 2);
+    }
+    console.log(flipped);
   }
 }

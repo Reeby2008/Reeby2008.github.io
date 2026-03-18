@@ -20,7 +20,7 @@ function draw() {
       ball.x = width + ball.radius;
     }
 
-    if (ball.x  + ball.radius < width) {
+    if (ball.x + ball.radius < width) {
       ball.x = -width - ball.radius;
     }
 

@@ -10,6 +10,7 @@ let card = [];
 let extras = [];
 let yValues = [];
 let xValues = [];
+let movingCards = [];
 let extrasIndex = 0;
 let cardsIndex = 0;
 let flipped = false;
@@ -26,7 +27,9 @@ function setup() {
 }
 
 function draw() {
-  
+  if (flipped && mouseIsPressed) {
+    image()
+  }
 }
 
 function homeScreen() {
@@ -90,12 +93,9 @@ function playScreen() {
   //Top left extra cards display
   image(card[0], nextRow, 190, card[0].width * 2, card[0].height * 2);
 
-  //Setting up the 7 columns
+  //Pushing x and y values of the set up cards into different arrays
   for (let y = 400; y <= 520; y += 20) {
     for (let x = width/2 + 362.5; x >= nextRow; x -= 152) {
-      let i = 0;
-
-      image(card[i], x, y, card[i].width * 2, card[i].height * 2);
       xValues.push(x);
     }
     yValues.push(y);
@@ -112,7 +112,43 @@ function playScreen() {
     secondNum--;
   }
 
-  flipDetector();
+  gameSetup();
+  //draggingCards();
+}
+
+function gameSetup() {
+  //Set up of the game
+  let num = 29;
+  let cards = 7;
+
+  for (let index = 0; index < 7; index++) {
+    for (let i = 0; i < cards; i++) {
+      if (yValues[i] + 20 === yValues[i + 1]) {
+        flipped = false;
+        image(card[0], xValues[index], yValues[i], card[0].width * 2, card[0].height * 2);
+      }
+      else {
+        let flippedCard = random(1, num);
+        flipped = true;
+        flippedCard = int(flippedCard);
+  
+        image(card[flippedCard], xValues[index], yValues[i], card[flippedCard].width * 2, card[flippedCard].height * 2);
+        movingCards.push(card[flippedCard]);
+        card.splice(flippedCard, 1);
+        num--;
+      }
+    }
+    yValues.splice(yValues.length - 1, 1);
+    cards--;
+  }
+}
+
+function draggingCards() {
+  while (mouseIsPressed) {
+    if (flipped) {
+      image(movingCards[i], mouseX, mouseY, movingCards[i].width * 2, movingCards[i].height * 2);
+    }
+  }
 }
 
 function mouseClicked() {
@@ -145,24 +181,5 @@ function mouseClicked() {
     rect(width/2 - 549.5, 190, card[0].width * 2, card[0].height * 2);
     image(extras[extrasIndex], width/2 - 539.5 + extras[extrasIndex].width * 2, 190, extras[extrasIndex].width * 2, extras[extrasIndex].height * 2);
     extrasIndex = 0;
-  }
-}
-
-function flipDetector() {
-  //Useful link maybe?: https://youtu.be/XATr_jdh-44?si=jjYWf3unSNKQGQoH
-  let num = 29;
-  let nextCard = 7;
-
-  for (let i = 0; i < 7; i++) {
-    if (yValues[i] + 20 === yValues[i + 1]) {
-      flipped = false;
-    }
-    else {
-      let flippedCard = random(1, num);
-      flippedCard = int(flippedCard);
-
-      image(card[flippedCard], xValues[0], yValues[i], card[flippedCard].width * 2, card[flippedCard].height * 2);
-    }
-    console.log(flipped);
   }
 }

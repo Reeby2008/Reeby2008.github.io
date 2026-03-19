@@ -8,12 +8,12 @@
 let deckOfCards;
 let card = [];
 let extras = [];
+let movingCards = [];
 let yValues = [];
 let xValues = [];
-let movingCards = [];
 let extrasIndex = 0;
-let cardsIndex = 0;
 let flipped = false;
+let initialScreen = true;
 
 function preload() {
   //Image source: https://stock.adobe.com/ca/images/playing-cards-full-deck-set-with-isolated-cards/559593180
@@ -27,9 +27,7 @@ function setup() {
 }
 
 function draw() {
-  if (flipped && mouseIsPressed) {
-    image()
-  }
+  
 }
 
 function homeScreen() {
@@ -104,8 +102,7 @@ function playScreen() {
 
   //Picks a random card to put inside of a different array. This is for the cards on the top left
   for (let cardInExtras = 0; cardInExtras < 24; cardInExtras++) {
-    let i = random(1, secondNum);
-    i = int(i);
+    let i = int(random(1, secondNum));
 
     extras.push(card[i]);
     card.splice(i, 1);
@@ -113,40 +110,44 @@ function playScreen() {
   }
 
   gameSetup();
-  //draggingCards();
 }
 
 function gameSetup() {
   //Set up of the game
   let num = 29;
-  let cards = 7;
+  let columns = 7;
 
   for (let index = 0; index < 7; index++) {
-    for (let i = 0; i < cards; i++) {
-      if (yValues[i] + 20 === yValues[i + 1]) {
+    for (let i = 0; i < columns; i++) {
+      if (i !== columns - 1) {
         flipped = false;
-        image(card[0], xValues[index], yValues[i], card[0].width * 2, card[0].height * 2);
+        image(card[0], xValues[i], yValues[index], card[0].width * 2, card[0].height * 2);
       }
       else {
-        let flippedCard = random(1, num);
+        let flippedCard = int(random(1, num));
         flipped = true;
-        flippedCard = int(flippedCard);
   
-        image(card[flippedCard], xValues[index], yValues[i], card[flippedCard].width * 2, card[flippedCard].height * 2);
-        movingCards.push(card[flippedCard]);
+        image(card[flippedCard], xValues[i], yValues[index], card[flippedCard].width * 2, card[flippedCard].height * 2);
+        movingCards.push({card: card[flippedCard],
+                          x: xValues[i],
+                          y: yValues[index]});
         card.splice(flippedCard, 1);
         num--;
       }
     }
-    yValues.splice(yValues.length - 1, 1);
-    cards--;
+    columns--;
   }
 }
 
-function draggingCards() {
-  while (mouseIsPressed) {
-    if (flipped) {
-      image(movingCards[i], mouseX, mouseY, movingCards[i].width * 2, movingCards[i].height * 2);
+function moveCards() {
+  //&& mouseX <= movingCards[i].x + movingCards[i].width * 2 && mouseX >= movingCards[i].x && mouseY <= movingCards[i].y + movingCards[i].height * 2 && mouseY >= movingCards[i].y
+  for (let i = 0; i < movingCards.length; i++) {
+    if (mouseX < movingCards[i].x + movingCards[i].width * 2 && mouseX > movingCards[i].x && mouseY < movingCards[i].y + movingCards[i].height * 2 && mouseY > movingCards[i].y) {
+      //image(movingCards.card, mouseX, mouseY, movingCards.card.width * 2, movingCards.card.height * 2);
+      console.log(true);
+    }
+    else {
+      console.log(false);
     }
   }
 }
@@ -157,12 +158,14 @@ function mouseClicked() {
     y: height/2,
     w: 700,
     h: 700,
-    r: 10,
   };
   
+  moveCards();
+
   //Switches to the game when "Play" is pressed
-  if (mouseX <= size.x + textWidth("Play")/2 && mouseX >= size.x - textWidth("Play")/2 && mouseY <= size.y + 75 && mouseY >= size.y + 10) {
+  if (mouseX <= size.x + textWidth("Play")/2 && mouseX >= size.x - textWidth("Play")/2 && mouseY <= size.y + 75 && mouseY >= size.y + 10 && initialScreen) {
     playScreen();
+    initialScreen = false;
   }
 
   //Flips the card from the extras deck

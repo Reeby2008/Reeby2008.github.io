@@ -3,7 +3,7 @@
 // Wednesday, March 18, 2026
 
 // Extra for Experts: Accessing specific parts of an image
-// - Using .get() to access specific parts of one image (like one specific card)
+// - Using .get() to push specific parts of one image (like one specific card) into an empty array
 
 let deckOfCards;
 let card = [];
@@ -12,7 +12,7 @@ let movingCards = [];
 let yValues = [];
 let xValues = [];
 let extrasIndex = 0;
-let flipped = false;
+let moving = false;
 let initialScreen = true;
 
 function preload() {
@@ -57,8 +57,8 @@ function homeScreen() {
 }
 
 function playScreen() {
-  let secondNum = 52;
   let nextRow = width/2 - 549.5;
+  let secondNum = 52;
   let cardSize = {
     w: 69.5,
     h: 100,
@@ -76,16 +76,10 @@ function playScreen() {
     card.push(deckOfCards.get(x, 10, cardSize.w, cardSize.h));
   }
 
-  for (let x = 84.5; x <= 918.5; x += cardSize.w) {
-    card.push(deckOfCards.get(x, 110, cardSize.w, cardSize.h));
-  }
-
-  for (let x = 84.5; x <= 918.5; x += cardSize.w) {
-    card.push(deckOfCards.get(x, 210, cardSize.w, cardSize.h));
-  }
-
-  for (let x = 84.5; x <= 918.5; x += cardSize.w) {
-    card.push(deckOfCards.get(x, 310, cardSize.w, cardSize.h));
+  for (let y = 110; y <= 310; y += 100) {
+    for (let x = 84.5; x <= 918.5; x += cardSize.w) {
+      card.push(deckOfCards.get(x, y, cardSize.w, cardSize.h));
+    }
   }
 
   //Top left extra cards display
@@ -116,21 +110,21 @@ function gameSetup() {
   //Set up of the game
   let num = 29;
   let columns = 7;
-
+  
   for (let index = 0; index < 7; index++) {
     for (let i = 0; i < columns; i++) {
       if (i !== columns - 1) {
-        flipped = false;
         image(card[0], xValues[i], yValues[index], card[0].width * 2, card[0].height * 2);
       }
       else {
         let flippedCard = int(random(1, num));
-        flipped = true;
   
         image(card[flippedCard], xValues[i], yValues[index], card[flippedCard].width * 2, card[flippedCard].height * 2);
         movingCards.push({card: card[flippedCard],
                           x: xValues[i],
-                          y: yValues[index]});
+                          y: yValues[index],
+                          w: card[0].width * 2,
+                          h: card[0].height * 2});
         card.splice(flippedCard, 1);
         num--;
       }
@@ -140,36 +134,38 @@ function gameSetup() {
 }
 
 function moveCards() {
-  //&& mouseX <= movingCards[i].x + movingCards[i].width * 2 && mouseX >= movingCards[i].x && mouseY <= movingCards[i].y + movingCards[i].height * 2 && mouseY >= movingCards[i].y
   for (let i = 0; i < movingCards.length; i++) {
-    if (mouseX < movingCards[i].x + movingCards[i].width * 2 && mouseX > movingCards[i].x && mouseY < movingCards[i].y + movingCards[i].height * 2 && mouseY > movingCards[i].y) {
-      //image(movingCards.card, mouseX, mouseY, movingCards.card.width * 2, movingCards.card.height * 2);
+    if (mouseX < movingCards[i].x + movingCards[i].w && mouseX > movingCards[i].x && mouseY < movingCards[i].y + movingCards[i].h && mouseY > movingCards[i].y) {
+      moving = true;
+      movingCards[i].x = mouseX;
+      movingCards[i].y = mouseY;
+      //image(movingCards[i].card, mouseX, mouseY, movingCards[i].w, movingCards[i].h);
       console.log(true);
     }
     else {
-      console.log(false);
+      moving = false;
     }
   }
 }
 
-function mouseClicked() {
-  let size = {
-    x: width/2,
-    y: height/2,
-    w: 700,
-    h: 700,
+function mousePressed() {
+  let buttonSize = {
+    rightSide: width/2 + textWidth("Play")/2,
+    leftSide: width/2 - textWidth("Play")/2,
+    top: height/2 + 75,
+    bottom: height/2 + 10
   };
-  
+
   moveCards();
 
   //Switches to the game when "Play" is pressed
-  if (mouseX <= size.x + textWidth("Play")/2 && mouseX >= size.x - textWidth("Play")/2 && mouseY <= size.y + 75 && mouseY >= size.y + 10 && initialScreen) {
+  if (mouseX <= buttonSize.rightSide && mouseX >= buttonSize.leftSide && mouseY <= buttonSize.top && mouseY >= buttonSize.bottom && initialScreen) {
     playScreen();
     initialScreen = false;
   }
 
   //Flips the card from the extras deck
-  if (mouseX <= card[0].width * 2 + width/2 - 549.5 && mouseX >= width/2 - 549.5 && mouseY <= card[0].height * 2 + 190 && mouseY >= 190 && extrasIndex !== 23) {
+  if (!initialScreen && mouseX <= card[0].width * 2 + width/2 - 549.5 && mouseX >= width/2 - 549.5 && mouseY <= card[0].height * 2 + 190 && mouseY >= 190 && extrasIndex !== 23) {
     image(extras[extrasIndex], width/2 - 539.5 + extras[extrasIndex].width * 2, 190, extras[extrasIndex].width * 2, extras[extrasIndex].height * 2);
     image(card[0], width/2 - 549.5, 190, card[0].width * 2, card[0].height * 2);
     extrasIndex++;
@@ -177,7 +173,7 @@ function mouseClicked() {
 
   //Resets the extras deck back to normal
   //Note: after resetting it flips the top card of the deck automatically
-  if (mouseX <= card[0].width * 2 + width/2 - 549.5 && mouseX >= width/2 - 549.5 && mouseY <= card[0].height * 2 + 190 && mouseY >= 190 && extrasIndex === 23) {
+  if (!initialScreen && mouseX <= card[0].width * 2 + width/2 - 549.5 && mouseX >= width/2 - 549.5 && mouseY <= card[0].height * 2 + 190 && mouseY >= 190 && extrasIndex === 23) {
     noStroke();
     rectMode(CORNER);
     fill(0, 50, 0);

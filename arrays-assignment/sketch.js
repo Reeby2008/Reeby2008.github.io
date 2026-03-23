@@ -3,7 +3,7 @@
 // Wednesday, March 18, 2026
 
 // Extra for Experts: Accessing specific parts of an image
-// - Using .get() to push specific parts of one image (like one specific card) into an empty array
+// - Using .get() to push specific parts of one image (like one specific card) into an empty array and use noSmooth() to make the cropped images clearer
 
 let deckOfCards;
 let card = [];
@@ -12,7 +12,6 @@ let movingCards = [];
 let yValues = [];
 let xValues = [];
 let extrasIndex = 0;
-let moving = false;
 let initialScreen = true;
 
 function preload() {
@@ -22,12 +21,9 @@ function preload() {
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
+  noSmooth();
 
   homeScreen();
-}
-
-function draw() {
-  
 }
 
 function homeScreen() {
@@ -38,7 +34,8 @@ function homeScreen() {
     h: 700,
     r: 10,
   };
-
+  
+  //Displays the screen before game starts
   background(0, 50, 0);
   fill(250, 250, 150);
   stroke(100, 150, 100);
@@ -64,12 +61,12 @@ function playScreen() {
     h: 100,
   };
 
+  //Display where the cards should be piled
   background(0, 50, 0);
   fill(50, 100, 50);
-  rect(width/2 - 25, 290, cardSize.w * 1.75, cardSize.h * 1.75, 5, 5, 5, 5);
-  rect(width/2 + 125, 290, cardSize.w * 1.75, cardSize.h * 1.75, 5, 5, 5, 5);
-  rect(width/2 + 275, 290, cardSize.w * 1.75, cardSize.h * 1.75, 5, 5, 5, 5);
-  rect(width/2 + 425, 290, cardSize.w * 1.75, cardSize.h * 1.75, 5, 5, 5, 5);
+  for (let x = width/2 - 25; x <= width/2 + 425; x += 150) {
+    rect(x, 290, cardSize.w * 1.75, cardSize.h * 1.75, 5, 5, 5, 5);
+  }
 
   //Pushing all of the cards into the array
   for (let x = 15; x <= 918.5; x += cardSize.w) {
@@ -107,22 +104,25 @@ function playScreen() {
 }
 
 function gameSetup() {
-  //Set up of the game
   let num = 29;
   let columns = 7;
   
-  for (let index = 0; index < 7; index++) {
-    for (let i = 0; i < columns; i++) {
-      if (i !== columns - 1) {
-        image(card[0], xValues[i], yValues[index], card[0].width * 2, card[0].height * 2);
+  //Set up of the game
+  for (let yIndex = 0; yIndex < 7; yIndex++) {
+    for (let xIndex = 0; xIndex < columns; xIndex++) {
+      if (xIndex !== columns - 1) {
+        //If the cards don't need to be flipped, display the unflipped version of the cards
+        image(card[0], xValues[xIndex], yValues[yIndex], card[0].width * 2, card[0].height * 2);
       }
       else {
         let flippedCard = int(random(1, num));
   
-        image(card[flippedCard], xValues[i], yValues[index], card[flippedCard].width * 2, card[flippedCard].height * 2);
+        image(card[flippedCard], xValues[xIndex], yValues[yIndex], card[flippedCard].width * 2, card[flippedCard].height * 2);
+
+        //Pushes random flipped cards into a different array with their location and size information and gets rid of these cards from the original card array to prevent duplicates
         movingCards.push({card: card[flippedCard],
-                          x: xValues[i],
-                          y: yValues[index],
+                          x: xValues[xIndex],
+                          y: yValues[yIndex],
                           w: card[0].width * 2,
                           h: card[0].height * 2});
         card.splice(flippedCard, 1);
@@ -134,12 +134,12 @@ function gameSetup() {
 }
 
 function moveCards() {
+  let moving = false;
+
+  //Detects if the flipped cards have been clicked, print true if they are clicked.
   for (let i = 0; i < movingCards.length; i++) {
     if (mouseX < movingCards[i].x + movingCards[i].w && mouseX > movingCards[i].x && mouseY < movingCards[i].y + movingCards[i].h && mouseY > movingCards[i].y) {
       moving = true;
-      movingCards[i].x = mouseX;
-      movingCards[i].y = mouseY;
-      //image(movingCards[i].card, mouseX, mouseY, movingCards[i].w, movingCards[i].h);
       console.log(true);
     }
     else {
@@ -167,8 +167,10 @@ function mousePressed() {
   //Flips the card from the extras deck
   if (!initialScreen && mouseX <= card[0].width * 2 + width/2 - 549.5 && mouseX >= width/2 - 549.5 && mouseY <= card[0].height * 2 + 190 && mouseY >= 190 && extrasIndex !== 23) {
     image(extras[extrasIndex], width/2 - 539.5 + extras[extrasIndex].width * 2, 190, extras[extrasIndex].width * 2, extras[extrasIndex].height * 2);
-    image(card[0], width/2 - 549.5, 190, card[0].width * 2, card[0].height * 2);
     extrasIndex++;
+
+    //Draws over the blank space in the corner so it looks like the cards are being reset
+    image(card[0], width/2 - 549.5, 190, card[0].width * 2, card[0].height * 2);
   }
 
   //Resets the extras deck back to normal
@@ -179,6 +181,8 @@ function mousePressed() {
     fill(0, 50, 0);
     rect(width/2 - 549.5, 190, card[0].width * 2, card[0].height * 2);
     image(extras[extrasIndex], width/2 - 539.5 + extras[extrasIndex].width * 2, 190, extras[extrasIndex].width * 2, extras[extrasIndex].height * 2);
+
+    //Loop back to the first card
     extrasIndex = 0;
   }
 }

@@ -20,10 +20,11 @@ function gameDisplay() {
   //rectMode(CENTER);
   for (let x = 0; x <= 600; x += 120) {
     for (let y = 0; y <= 700; y += 120) {
-      //fill(colours[int(random(0, 6))]);
+      let randomColour = colours[int(random(0, 6))];
       rect(x, y, 120, 120);
+      grid.push([randomColour, x, y]);
+      console.log(grid);
     }
-    //grid.push([])
   }
   //rect(width/2, height/2, 600, 700);
 }

@@ -100,7 +100,7 @@ function displayGrid() {
     for (let x = 0; x < cols; x++) {
       if (grid[y][x] === OPEN_TILE) {
         //fill("white");
-        image(forbiddenGrass, x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE);
+        image(forbiddenGrass, x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
       }
       if (grid[y][x] === IMPASSIBLE) {
         //fill("black");

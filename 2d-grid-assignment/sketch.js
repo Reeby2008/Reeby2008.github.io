@@ -14,19 +14,22 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
 
   gameAnswer();
-}
-
-function draw() {
   gameDisplay();
 }
 
+function draw() {
+}
+
 function mousePressed() {
-  //if ()
+  for (index = 0; index <= 4; index++) {
+    fill(colours[0]);
+    square(grid[index][0], grid[index][1], SQUARE_SIZE);
+  }
 }
 
 function gameDisplay() {
-  for (let x = 0; x < SQUARE_SIZE * 4; x += SQUARE_SIZE) {
-    for (let y = 0; y < SQUARE_SIZE * 5; y += SQUARE_SIZE) {
+  for (let x = width/2 - SQUARE_SIZE * 2; x < width/2 + SQUARE_SIZE * 2; x += SQUARE_SIZE) {
+    for (let y = height/2 - SQUARE_SIZE * 2.5; y < height/2 + SQUARE_SIZE * 2.5; y += SQUARE_SIZE) {
       square(x, y, SQUARE_SIZE);
       grid.push([x, y]);
     }

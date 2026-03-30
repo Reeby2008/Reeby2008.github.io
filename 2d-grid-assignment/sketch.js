@@ -6,11 +6,14 @@
 // - describe what you did to take this project "above and beyond"
 
 const SQUARE_SIZE = 120;
-let colours = ["red", "orange", "yellow", "green", "blue", "purple", "pink", "black"];
+const NEXT_ROW = 4;
+let colours = ["red", "orange", "yellow", "green", "blue", "purple", "pink", "white"];
 let grid = [];
 let answer = [];
-let input = [];
+let userInput = [];
+let temporaryArray = [];
 let nextColour = 0;
+let previousRow = 0;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -23,7 +26,10 @@ function draw() {
 }
 
 function mousePressed() {
-  for (let index = 0; index < 4; index++) {
+  //If a box is clicked on, change the colour
+  //Note: the nextColour variable changes no matter what box is clicked so if a second box is clicked, it will fill with the next colour in the array, not the first colour
+  //Note: at the end of the game the code starts throwing errors when any box is clicked
+  for (let index = previousRow; index < NEXT_ROW + previousRow; index++) {
     if (nextColour === colours.length) {
       nextColour = 0;
     }
@@ -38,12 +44,20 @@ function mousePressed() {
 }
 
 function keyPressed() {
-  // if (key === "ENTER") {
-  //   input.push()
-  // }
+  //Locks in previous answer and pushes to a different array
+  if (keyCode === ENTER) {
+    //Remove previous guess from the array
+    userInput.splice(0, 4);
+
+    for (let i = previousRow; i < NEXT_ROW + previousRow; i++) {
+      userInput.push(grid[i][grid[i].length - 1]);
+    }
+    previousRow += 4;
+  }
 }
 
 function gameDisplay() {
+  //Pushes the x and y values of each square into the grid array
   for (let y = height/2 - SQUARE_SIZE * 2.5; y < height/2 + SQUARE_SIZE * 2.5; y += SQUARE_SIZE) {
     for (let x = width/2 - SQUARE_SIZE * 2; x < width/2 + SQUARE_SIZE * 2; x += SQUARE_SIZE) {
       square(x, y, SQUARE_SIZE);
@@ -53,9 +67,18 @@ function gameDisplay() {
 }
 
 function gameAnswer() {
+  //Picks random colours to be the answer to the "wordle"
   for (let answers = 0; answers < 4; answers++) {
     let randomColour = colours[int(random(0, 7))];
-
+    
     answer.push(randomColour);
+  }
+}
+
+function colourPlacement() {
+  for (let sequence = 0; sequence < answer.length; sequence++) {
+    if (userInput[sequence] === answer[sequence]) {
+      temporaryArray.push(true);
+    }
   }
 }

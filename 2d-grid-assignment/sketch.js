@@ -49,36 +49,59 @@ function keyPressed() {
     //Remove previous guess from the array
     userInput.splice(0, 4);
 
+    //Pushes the colours that were entered by the user
     for (let i = previousRow; i < NEXT_ROW + previousRow; i++) {
       userInput.push(grid[i][grid[i].length - 1]);
     }
     previousRow += 4;
+
+    colourPlacement();
   }
 }
 
 function gameDisplay() {
-  //Pushes the x and y values of each square into the grid array
+  //Pushes the x and y values of each square into the grid array and displays the grid
   for (let y = height/2 - SQUARE_SIZE * 2.5; y < height/2 + SQUARE_SIZE * 2.5; y += SQUARE_SIZE) {
     for (let x = width/2 - SQUARE_SIZE * 2; x < width/2 + SQUARE_SIZE * 2; x += SQUARE_SIZE) {
+      strokeWeight(5);
       square(x, y, SQUARE_SIZE);
       grid.push([x, y]);
     }
   }
+
+  //Displays the answer bar
+  // for (let y = height/2 - SQUARE_SIZE * 3.75; y < height/2 - SQUARE_SIZE * 2.75; y += SQUARE_SIZE) {
+  //   for (let x = width/2 - SQUARE_SIZE * 2; x < width/2 + SQUARE_SIZE * 2; x += SQUARE_SIZE) {
+  //     square(x, y, SQUARE_SIZE);
+  //   }
+  // }
 }
 
 function gameAnswer() {
   //Picks random colours to be the answer to the "wordle"
   for (let answers = 0; answers < 4; answers++) {
-    let randomColour = colours[int(random(0, 7))];
+    let randomColour = colours[int(random(0, colours.length - 1))];
     
     answer.push(randomColour);
   }
 }
 
 function colourPlacement() {
+  temporaryArray.splice(0, NEXT_ROW);
+
   for (let sequence = 0; sequence < answer.length; sequence++) {
+    //If the colours are in the right spot
+
     if (userInput[sequence] === answer[sequence]) {
       temporaryArray.push(true);
     }
+    else {
+      temporaryArray.push(false);
+    }
+
+    //If the colours are correct, but in the wrong spot
+    //if (userInput[sequence] )
   }
+
+  console.log(temporaryArray);
 }

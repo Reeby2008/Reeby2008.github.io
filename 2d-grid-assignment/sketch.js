@@ -14,6 +14,7 @@ let userInput = [];
 let temporaryArray = [];
 let nextColour = 0;
 let previousRow = 0;
+//let correctColour = "black";
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -63,6 +64,7 @@ function gameDisplay() {
   //Pushes the x and y values of each square into the grid array and displays the grid
   for (let y = height/2 - SQUARE_SIZE * 2.5; y < height/2 + SQUARE_SIZE * 2.5; y += SQUARE_SIZE) {
     for (let x = width/2 - SQUARE_SIZE * 2; x < width/2 + SQUARE_SIZE * 2; x += SQUARE_SIZE) {
+      //stroke(correctColour);
       strokeWeight(5);
       square(x, y, SQUARE_SIZE);
       grid.push([x, y]);
@@ -93,14 +95,24 @@ function colourPlacement() {
     //If the colours are in the right spot
 
     if (userInput[sequence] === answer[sequence]) {
+      //correctColour = "green";
       temporaryArray.push(true);
     }
     else {
+      //correctColour = "black";
       temporaryArray.push(false);
     }
 
     //If the colours are correct, but in the wrong spot
-    //if (userInput[sequence] )
+    for (let correctColour = 0; correctColour < answer.length; correctColour++) {
+      if (userInput[sequence] === answer[correctColour]) {
+        temporaryArray.push("right");
+      }
+
+      else {
+        temporaryArray.push(false);
+      }
+    }
   }
 
   console.log(temporaryArray);

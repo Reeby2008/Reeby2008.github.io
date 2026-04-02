@@ -98,21 +98,37 @@ function colourPlacement() {
       //correctColour = "green";
       temporaryArray.push(true);
     }
+
     else {
       //correctColour = "black";
-      temporaryArray.push(false);
-    }
-
-    //If the colours are correct, but in the wrong spot
-    for (let correctColour = 0; correctColour < answer.length; correctColour++) {
-      if (userInput[sequence] === answer[correctColour]) {
-        temporaryArray.push("right");
+      //If the colours are correct, but in the wrong spot
+      for (let correctColour = 0; correctColour < answer.length; correctColour++) {
+        if (userInput[sequence] === answer[correctColour] && sequence !== correctColour) {
+          temporaryArray.push("right");
+        }
+  
+        // else {
+        //   temporaryArray.push(false);
+        // }
       }
 
-      else {
-        temporaryArray.push(false);
-      }
+      // if (userInput[sequence] === answer[0] && sequence !== 0) {
+      //   temporaryArray.push("right");
+      // }
+
+      // if (userInput[sequence] === answer[1] && sequence !== 1) {
+      //   temporaryArray.push("right");
+      // }
+
+      // if (userInput[sequence] === answer[2] && sequence !== 2) {
+      //   temporaryArray.push("right");
+      // }
+
+      // if (userInput[sequence] === answer[3] && sequence !== 3) {
+      //   temporaryArray.push("right");
+      // }
     }
+    temporaryArray.push(false);
   }
 
   console.log(temporaryArray);

@@ -11,6 +11,7 @@
  - [Rectangle Grid](08-rect-grid)
  - [Game of Life](09-life)
  - [Character in Grid](10-character)
+ - [Walker OOP](12-walker)
 
 ## Assignments
 - [Interactive Scene](Interactive Scene Assignment)

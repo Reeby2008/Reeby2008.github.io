@@ -14,6 +14,8 @@ let answer = [];
 let userInput = [];
 let nextColour = 0;
 let previousRow = 0;
+let guessesUsed = 1;
+let guessesAvailable = 5;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -25,21 +27,20 @@ function setup() {
 function mousePressed() {
   //If a box is clicked on, change the colour
   //Note: the nextColour variable changes no matter what box is clicked so if a second box is clicked, it will fill with the next colour in the array, not the first colour
-  //Note: even after the sequence of colours is guessed correctly, the next row can still be clicked on and changed
-  for (let index = previousRow; index < ROW_SIZE + previousRow; index++) {
+  for (let box = previousRow; box < ROW_SIZE + previousRow; box++) {
     //If user reaches last colour in the array, loop back to first colour
     if (nextColour === colours.length) {
       nextColour = 0;
     }
     
-    if (index < grid.length && mouseX >= grid[index][0] && mouseX <= grid[index][0] + SQUARE_SIZE && mouseY >= grid[index][1] && mouseY <= grid[index][1] + SQUARE_SIZE) {
+    if (guessesAvailable > 0 && mouseX >= grid[box][0] && mouseX <= grid[box][0] + SQUARE_SIZE && mouseY >= grid[box][1] && mouseY <= grid[box][1] + SQUARE_SIZE) {
       fill(colours[nextColour]);
       stroke("black");
-      square(grid[index][0], grid[index][1], SQUARE_SIZE);
+      square(grid[box][0], grid[box][1], SQUARE_SIZE);
 
       //Push the colour of the boxes at the end of their x and y coordinates
-      grid[index].pop();
-      grid[index].push(colours[nextColour]);
+      grid[box].pop();
+      grid[box].push(colours[nextColour]);
       nextColour++;
     }
   }
@@ -52,15 +53,17 @@ function keyPressed() {
     userInput.splice(0, ROW_SIZE);
     
     //Pushes the colours that were entered by the user into the userInput array
-    for (let i = previousRow; i < ROW_SIZE + previousRow; i++) {
-      userInput.push(grid[i][grid[i].length - 1]);
+    for (let square = previousRow; square < ROW_SIZE + previousRow; square++) {
+      userInput.push(grid[square][grid[square].length - 1]);
     }
 
     colourPlacement();
     endScreen();
 
     //Next row
-    previousRow += 4;
+    previousRow += ROW_SIZE;
+    guessesUsed++;
+    guessesAvailable--;
   }
 }
 
@@ -116,6 +119,11 @@ function colourPlacement() {
 }
 
 function endScreen() {
+  let textPos = {
+    x: width/2 - 25,
+    y: (height/2 - SQUARE_SIZE * 2.5)/2
+  };
+
   //If user wins
   if (userInput[0] === answer[0] &&
       userInput[1] === answer[1] &&
@@ -124,7 +132,9 @@ function endScreen() {
     strokeWeight(0);
     textSize(25);
     fill("black");
-    text("You Win!", width/2, (height/2 - SQUARE_SIZE * 2.5)/2);
+    text("You Win!", textPos.x, textPos.y);
+    text("You Guessed the Sequence in " + guessesUsed, textPos.x - 125, textPos.y + 30);
+    guessesAvailable = 0;
   }
 
   //If user loses
@@ -132,6 +142,6 @@ function endScreen() {
     strokeWeight(0);
     textSize(25);
     fill("black");
-    text("You Lose", width/2, height/2 - SQUARE_SIZE * 2.5);
+    text("You Lose", textPos.x, textPos.y);
   }
 }

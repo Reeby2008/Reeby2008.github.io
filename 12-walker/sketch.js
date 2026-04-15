@@ -39,19 +39,41 @@ class Walker {
   }
 }
 
-let tyler;
-let audrey;
+let theWalkers = [];
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  tyler = new Walker(width/2, height/2);
-  audrey = new Walker(300, 500);
-  audrey.colour = "blue";
 }
 
 function draw() {
-  tyler.move();
-  audrey.move();
-  tyler.display();
-  audrey.display();
+  for (let someWalker of theWalkers) {
+    someWalker.move();
+    someWalker.display();
+  }
 }
+
+function mousePressed() {
+  let theGuy = new Walker(mouseX, mouseY);
+  theGuy.colour = color(random(255), random(255), random(255));
+  theWalkers.push(theGuy);
+}
+
+//Only 2 walkers
+
+// let tyler;
+// let audrey;
+
+// function setup() {
+//   createCanvas(windowWidth, windowHeight);
+//   tyler = new Walker(width/2, height/2);
+//   audrey = new Walker(300, 500);
+//   audrey.colour = "blue";
+// }
+
+// function draw() {
+//   tyler.move();
+//   audrey.move();
+//   tyler.display();
+//   audrey.display();
+// }
+

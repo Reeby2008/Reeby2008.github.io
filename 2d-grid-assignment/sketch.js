@@ -2,12 +2,16 @@
 // Mehreeb Shahzad
 // Wednesday, April 15, 2026
 //
-// Extra for Experts: Background Music
-// - describe what you did to take this project "above and beyond"
+// Extra for Experts: Background Music and Volume Control
+// - Add background music to the game and be able to control the volume using a slider
+// - Help from: https://youtu.be/Pn1g1wjxl_0?si=Cg6XolxG85dj3ZXf
 
 const SQUARE_SIZE = 120;
 const SQUARES_GAP = 10;
 const ROW_SIZE = 4;
+const VOL_POSITION = 100;
+const SLIDER_INCREMENT = 0.1;
+const MAX_VOLUME = 1;
 let colours = ["red", "orange", "yellow", "green", "blue", "purple", "pink", "white"];
 let grid = [];
 let answer = [];
@@ -16,12 +20,38 @@ let nextColour = 0;
 let previousRow = 0;
 let guessesUsed = 1;
 let guessesAvailable = 5;
+let bgMusic;
+let volumeControl;
+
+function preload() {
+  //https://pixabay.com/sound-effects/search/lofi%20music/
+  bgMusic = loadSound("bgmusic.mp3");
+}
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
 
+  //Create the slider to control volume
+  volumeControl = createSlider(0, MAX_VOLUME, MAX_VOLUME, SLIDER_INCREMENT);
+  volumeControl.position(VOL_POSITION, VOL_POSITION);
+
+  //Play and loop the music when it ends
+  bgMusic.play();
+  bgMusic.loop();
+  
   gameAnswer();
   gameDisplay();
+}
+
+function draw() {
+  //Display volume slider
+  bgMusic.setVolume(volumeControl.value());
+
+  //Display volume text
+  stroke("white");
+  textSize(25);
+  fill("black");
+  text("Volume", VOL_POSITION, VOL_POSITION);
 }
 
 function mousePressed() {
@@ -85,7 +115,7 @@ function gameAnswer() {
   let noRepeat = structuredClone(colours);
   
   for (let answers = 0; answers < ROW_SIZE; answers++) {
-    let randomIndex = int(random(0, noRepeat.length));
+    let randomIndex = int(random(noRepeat.length));
     
     answer.push(noRepeat[randomIndex]);
 
@@ -121,7 +151,9 @@ function colourPlacement() {
 function endScreen() {
   let textPos = {
     x: width/2 - 25,
-    y: (height/2 - SQUARE_SIZE * 2.5)/2
+    y: (height/2 - SQUARE_SIZE * 2.5)/2,
+    centreX: 125,
+    centreY: 30
   };
 
   //If user wins
@@ -133,7 +165,7 @@ function endScreen() {
     textSize(25);
     fill("black");
     text("You Win!", textPos.x, textPos.y);
-    text("You Guessed the Sequence in " + guessesUsed, textPos.x - 125, textPos.y + 30);
+    text("You Guessed the Sequence in " + guessesUsed, textPos.x - textPos.centreX, textPos.y + textPos.centreY);
     guessesAvailable = 0;
   }
 

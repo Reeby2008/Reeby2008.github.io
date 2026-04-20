@@ -14,6 +14,7 @@
  - [Walker OOP](12-walker)
  - [Fireworks OOP](13-fireworks)
  - [Ball Collision OOP](14-ball-collision)
+ - [Connected Nodes](15-connected-nodes)
 
 ## Assignments
 - [Interactive Scene](Interactive Scene Assignment)
